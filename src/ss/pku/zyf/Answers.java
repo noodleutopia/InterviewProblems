@@ -222,5 +222,4 @@ public class Answers {
 		}
 		return -1;
 	}
-	
 }
