@@ -13,9 +13,9 @@ public class Answers {
 
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
-		int[] array = {1,10,2,12};
+		int[] array = { 1, 10, 2, 12 };
 		System.out.println(calculateMax(array));
-		
+
 	}
 
 	// *原因：
@@ -114,201 +114,202 @@ public class Answers {
 
 	/**
 	 * 爬台阶问题，总共多少种爬法
+	 * 
 	 * @param n
 	 */
 	static int upStairs(int n) {
-		if(n == 1) {
+		if (n == 1) {
 			return 1;
 		}
-		if(n == 2) {
+		if (n == 2) {
 			return 2;
 		}
 		return upStairs(n - 1) + upStairs(n - 2);
 	}
-	
+
 	/**
 	 * 搜狗面试题：给出一个 n*n 的矩阵，每个矩阵点用(0，1)来表示是否可达，给出和始、终点坐标，如何找到一条路径。
 	 */
-	static int[][] mark;	//标记位，防止循环走
+	static int[][] mark; // 标记位，防止循环走
+
 	static boolean findPath(int[][] m, int n, int sx, int sy, int ex, int ey) {
-		if(sx == ex && sy == ey) {
+		if (sx == ex && sy == ey) {
 			printNode(sx, sy);
 			return true;
 		}
-		if(0 <= sx-1 && mark[sx-1][sy] == 0 && m[sx-1][sy] == 1) {
-			mark[sx-1][sy] = 1;
-			if(findPath(m, n, sx-1, sy, ex, ey)) {
+		if (0 <= sx - 1 && mark[sx - 1][sy] == 0 && m[sx - 1][sy] == 1) {
+			mark[sx - 1][sy] = 1;
+			if (findPath(m, n, sx - 1, sy, ex, ey)) {
 				printNode(sx, sy);
 				return true;
 			} else {
-				mark[sx-1][sy] = 0;
+				mark[sx - 1][sy] = 0;
 			}
 		}
-		if(0 <= sy-1 && mark[sx][sy-1] == 0 && m[sx][sy-1] == 1) {
-			mark[sx][sy-1] = 1;
-			if(findPath(m, n, sx, sy-1, ex, ey)) {
+		if (0 <= sy - 1 && mark[sx][sy - 1] == 0 && m[sx][sy - 1] == 1) {
+			mark[sx][sy - 1] = 1;
+			if (findPath(m, n, sx, sy - 1, ex, ey)) {
 				printNode(sx, sy);
 				return true;
 			} else {
-				mark[sx][sy-1] = 0;
+				mark[sx][sy - 1] = 0;
 			}
 		}
-		if(sx+1 < n && mark[sx+1][sy] == 0 && m[sx+1][sy] == 1) {
-			mark[sx+1][sy] = 1;
-			if(findPath(m, n, sx+1, sy, ex, ey)) {
+		if (sx + 1 < n && mark[sx + 1][sy] == 0 && m[sx + 1][sy] == 1) {
+			mark[sx + 1][sy] = 1;
+			if (findPath(m, n, sx + 1, sy, ex, ey)) {
 				printNode(sx, sy);
 				return true;
 			} else {
-				mark[sx+1][sy] = 0;
+				mark[sx + 1][sy] = 0;
 			}
 		}
-		if(sy+1 < n && mark[sx][sy+1] == 0 && m[sx][sy+1] == 1) {
-			mark[sx][sy+1] = 1;
-			if(findPath(m, n, sx, sy+1, ex, ey)) {
+		if (sy + 1 < n && mark[sx][sy + 1] == 0 && m[sx][sy + 1] == 1) {
+			mark[sx][sy + 1] = 1;
+			if (findPath(m, n, sx, sy + 1, ex, ey)) {
 				printNode(sx, sy);
 				return true;
 			} else {
-				mark[sx][sy+1] = 0;
+				mark[sx][sy + 1] = 0;
 			}
 		}
 		return false;
 	}
-	
+
 	static void printNode(int x, int y) {
 		System.out.println(x + " " + y);
 	}
-	
+
 	/**
 	 * 搜狗二面：1.递归方法实现单链表逆置
 	 */
 	static public ListNode reverseList(ListNode head, int dep) {
-		if(head.next == null) {
+		if (head.next == null) {
 			return head;
 		}
-		ListNode res = reverseList(head.next, dep+1);
+		ListNode res = reverseList(head.next, dep + 1);
 		head.next.next = head;
-		if(dep == 0) {
+		if (dep == 0) {
 			head.next = null;
 		}
 		return res;
 	}
+
 	static public void printList(ListNode head) {
-		while(head != null) {
+		while (head != null) {
 			System.out.print(head.val + " ");
 			head = head.next;
 		}
 		System.out.print("\n");
 	}
+
 	/**
 	 * 搜狗二面：2.输入二叉树的前序和中序遍历，输出后序遍历
 	 */
-	static public void postTrav(int[] pre, int[]mid, int pLeft, int pRight, int mLeft, int mRight) {
+	static public void postTrav(int[] pre, int[] mid, int pLeft, int pRight, int mLeft, int mRight) {
 		int middle = findMid(pre[pLeft], mid, mLeft, mRight);
-		if(middle > mLeft) {
-			postTrav(pre, mid, pLeft+1, middle-mLeft+pLeft, mLeft, middle-1);
+		if (middle > mLeft) {
+			postTrav(pre, mid, pLeft + 1, middle - mLeft + pLeft, mLeft, middle - 1);
 		}
-		if(middle < mRight) {
-			postTrav(pre, mid, pRight-(mRight-middle)+1, pRight, middle+1, mRight);
+		if (middle < mRight) {
+			postTrav(pre, mid, pRight - (mRight - middle) + 1, pRight, middle + 1, mRight);
 		}
 		System.out.print(pre[pLeft] + " ");
 	}
+
 	static public int findMid(int p, int[] mid, int left, int right) {
-		for(int i = left; i <= right; i++) {
-			if(mid[i] == p) {
+		for (int i = left; i <= right; i++) {
+			if (mid[i] == p) {
 				return i;
 			}
 		}
 		return -1;
 	}
+
 	/**
 	 * 美团笔试：给出面值为1，5，10，20，50，100的钱，当输入一个数值时，输出凑出这个数值的方法个数
 	 * 不会。查了下答案，用动规思想，从小到大构建二维数组，相当于循环，遍历表，然后查表。
 	 */
-	
+
 	public static int compute(int coins[], int coinKinds, int sum) {
-	    // 2-D array : dp[coinKinds+1][sum+1] = {0};
-	    int[][] dp = new int[(coinKinds + 1)][sum + 1];
+		// 2-D array : dp[coinKinds+1][sum+1] = {0};
+		int[][] dp = new int[(coinKinds + 1)][sum + 1];
 
-	    for (int i = 0; i <= coinKinds; ++i)
-	    {
-	        for (int j = 0; j <= sum; ++j)
-	        {
-	            dp[i][j] = 0;
-	        }
-	    }
+		for (int i = 0; i <= coinKinds; ++i) {
+			for (int j = 0; j <= sum; ++j) {
+				dp[i][j] = 0;
+			}
+		}
 
-	    //init: dp[i][0] = 1; i = 0, 1, 2 ..., coinKinds
-	    //Notice: dp[0][0] must be 1, althongh it make no sense that
-	    //using 0 kinds of coins construct 0 has one way. but it the foundation
-	    //of iteration. without it everything based on it goes wrong
-	    for (int i = 0; i <= coinKinds; ++i)
-	    {
-	        dp[i][0] = 1;
-	    }
+		// init: dp[i][0] = 1; i = 0, 1, 2 ..., coinKinds
+		// Notice: dp[0][0] must be 1, althongh it make no sense that
+		// using 0 kinds of coins construct 0 has one way. but it the foundation
+		// of iteration. without it everything based on it goes wrong
+		for (int i = 0; i <= coinKinds; ++i) {
+			dp[i][0] = 1;
+		}
 
-	    // iteration: dp[i][j] = sum(dp[i-1][j - k*coins[i-1]])
-	    // k = 0, 1, 2, ... , j / coins[i-1]
-	    for (int i = 1; i <= coinKinds; ++i)
-	    {
-	        for (int j = 1; j <= sum; ++j)
-	        {
-	            dp[i][j] = 0;
-	            for (int k = 0; k <= j / coins[i-1]; ++k)
-	            {
-	                dp[i][j] += dp[i-1][j - k * coins[i-1]];
-	            }
-	        }
-	    }
+		// iteration: dp[i][j] = sum(dp[i-1][j - k*coins[i-1]])
+		// k = 0, 1, 2, ... , j / coins[i-1]
+		for (int i = 1; i <= coinKinds; ++i) {
+			for (int j = 1; j <= sum; ++j) {
+				dp[i][j] = 0;
+				for (int k = 0; k <= j / coins[i - 1]; ++k) {
+					dp[i][j] += dp[i - 1][j - k * coins[i - 1]];
+				}
+			}
+		}
 
-	    return dp[coinKinds][sum];
+		return dp[coinKinds][sum];
 	}
-	
-    /**
-     * 计算你能获得的最大收益
-     * 
-     * @param prices Prices[i]即第i天的股价
-     * @return 整型
-     */
-    public static int calculateMax(int[] prices) {
-		if(prices == null || prices.length == 0) {
+
+	/**
+	 * 计算你能获得的最大收益
+	 * 
+	 * @param prices
+	 *            Prices[i]即第i天的股价
+	 * @return 整型
+	 */
+	public static int calculateMax(int[] prices) {
+		if (prices == null || prices.length == 0) {
 			return 0;
 		}
 
 		int[] dpl = new int[prices.length];
 		int[] dpr = new int[prices.length];
-		
+
 		int minPrice = prices[0];
-		int maxPrice = prices[prices.length-1];
-		
+		int maxPrice = prices[prices.length - 1];
+
 		dpl[0] = 0;
-		dpr[prices.length-1] = 0;
-		//从左向右
-		for(int i = 1; i<prices.length; ++i) {
-			if(prices[i] - minPrice > dpl[i-1]) {
+		dpr[prices.length - 1] = 0;
+		// 从左向右
+		for (int i = 1; i < prices.length; ++i) {
+			if (prices[i] - minPrice > dpl[i - 1]) {
 				dpl[i] = prices[i] - minPrice;
 			} else {
-				dpl[i] = dpl[i-1];
-				if(prices[i] < minPrice) {
+				dpl[i] = dpl[i - 1];
+				if (prices[i] < minPrice) {
 					minPrice = prices[i];
 				}
 			}
 		}
-		
-		//从右向左
-		for(int i = prices.length-2; i>=0; --i) {
-			if(maxPrice - prices[i] > dpr[i+1]) {
+
+		// 从右向左
+		for (int i = prices.length - 2; i >= 0; --i) {
+			if (maxPrice - prices[i] > dpr[i + 1]) {
 				dpr[i] = maxPrice - prices[i];
 			} else {
-				dpr[i] = dpr[i+1];
-				if(prices[i] > maxPrice) {
+				dpr[i] = dpr[i + 1];
+				if (prices[i] > maxPrice) {
 					maxPrice = prices[i];
 				}
 			}
 		}
 		int max = 0;
-		for(int i = 0; i<prices.length; i++) {
-			max = Math.max(dpl[i]+dpr[i], max);
+		for (int i = 0; i < prices.length; i++) {
+			max = Math.max(dpl[i] + dpr[i], max);
 		}
 		return max;
-    }
+	}
 }
