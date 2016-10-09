@@ -10,7 +10,7 @@ import binary_tree.TreeNode;
 import linked_list.ListNode;
 
 public class Answers {
-
+	//just for test
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
 		int[] array = { 1, 10, 2, 12 };
