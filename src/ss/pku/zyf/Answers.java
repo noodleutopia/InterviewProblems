@@ -13,10 +13,8 @@ public class Answers {
 
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
-		
-		int[] pre = {4,3,1,2,5,6};
-		int[] mid = {1,3,2,4,6,5};
-		postTrav(pre,mid,0,5,0,5);
+		int[] array = {1,10,2,12};
+		System.out.println(calculateMax(array));
 		
 	}
 
@@ -222,4 +220,95 @@ public class Answers {
 		}
 		return -1;
 	}
+	/**
+	 * 美团笔试：给出面值为1，5，10，20，50，100的钱，当输入一个数值时，输出凑出这个数值的方法个数
+	 * 不会。查了下答案，用动规思想，从小到大构建二维数组，相当于循环，遍历表，然后查表。
+	 */
+	
+	public static int compute(int coins[], int coinKinds, int sum) {
+	    // 2-D array : dp[coinKinds+1][sum+1] = {0};
+	    int[][] dp = new int[(coinKinds + 1)][sum + 1];
+
+	    for (int i = 0; i <= coinKinds; ++i)
+	    {
+	        for (int j = 0; j <= sum; ++j)
+	        {
+	            dp[i][j] = 0;
+	        }
+	    }
+
+	    //init: dp[i][0] = 1; i = 0, 1, 2 ..., coinKinds
+	    //Notice: dp[0][0] must be 1, althongh it make no sense that
+	    //using 0 kinds of coins construct 0 has one way. but it the foundation
+	    //of iteration. without it everything based on it goes wrong
+	    for (int i = 0; i <= coinKinds; ++i)
+	    {
+	        dp[i][0] = 1;
+	    }
+
+	    // iteration: dp[i][j] = sum(dp[i-1][j - k*coins[i-1]])
+	    // k = 0, 1, 2, ... , j / coins[i-1]
+	    for (int i = 1; i <= coinKinds; ++i)
+	    {
+	        for (int j = 1; j <= sum; ++j)
+	        {
+	            dp[i][j] = 0;
+	            for (int k = 0; k <= j / coins[i-1]; ++k)
+	            {
+	                dp[i][j] += dp[i-1][j - k * coins[i-1]];
+	            }
+	        }
+	    }
+
+	    return dp[coinKinds][sum];
+	}
+	
+    /**
+     * 计算你能获得的最大收益
+     * 
+     * @param prices Prices[i]即第i天的股价
+     * @return 整型
+     */
+    public static int calculateMax(int[] prices) {
+		if(prices == null || prices.length == 0) {
+			return 0;
+		}
+
+		int[] dpl = new int[prices.length];
+		int[] dpr = new int[prices.length];
+		
+		int minPrice = prices[0];
+		int maxPrice = prices[prices.length-1];
+		
+		dpl[0] = 0;
+		dpr[prices.length-1] = 0;
+		//从左向右
+		for(int i = 1; i<prices.length; ++i) {
+			if(prices[i] - minPrice > dpl[i-1]) {
+				dpl[i] = prices[i] - minPrice;
+			} else {
+				dpl[i] = dpl[i-1];
+				if(prices[i] < minPrice) {
+					minPrice = prices[i];
+				}
+			}
+		}
+		
+		//从右向左
+		for(int i = prices.length-2; i>=0; --i) {
+			if(maxPrice - prices[i] > dpr[i+1]) {
+				dpr[i] = maxPrice - prices[i];
+			} else {
+				dpr[i] = dpr[i+1];
+				if(prices[i] > maxPrice) {
+					maxPrice = prices[i];
+				}
+			}
+		}
+		int max = 0;
+		for(int i = 0; i<prices.length; i++) {
+			max = Math.max(dpl[i]+dpr[i], max);
+		}
+		return max;
+    }
 }

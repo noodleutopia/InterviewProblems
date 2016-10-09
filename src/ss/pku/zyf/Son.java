@@ -11,6 +11,14 @@ public class Son extends Father{
 		System.out.println("Son smile...");
 	}
 	
+	public void play(String ball) {
+		System.out.println("Son play with a " + ball);
+	}
+	
+	public void sing() {
+		System.out.println("Son is singing...");
+	}
+	
 	public static void main(String[] args) {
 		Father s = new Son();
 		s.smile();

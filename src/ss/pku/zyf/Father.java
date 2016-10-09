@@ -9,4 +9,8 @@ public class Father {
 	public void smile() {
 		System.out.println("Father smile...");
 	}
+	
+	public void play() {
+		System.out.println("Father play...");
+	}
 }
